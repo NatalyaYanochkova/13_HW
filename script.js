@@ -4,46 +4,54 @@ inputs and type of operation form “#operator” select and print to span “#r
 result of calculation.*/
 const firstValue = document.getElementById('first_value');
 const secondValue = document.getElementById('second_value');
-const operator = document.getElementById('operator');
-const textSpan = document.getElementById('res_calc');
+const operatorSelect = document.getElementById('operator');
+const resCalcSpan = document.getElementById('res_calc');
 
-function isNumber(x) {
+function getNumber(x) {
     if (x === '') {
-        return false;
+        return undefined;
     }
     const numX = +x;
     if (isNaN(numX)) {
-        return false;
+        return undefined;
     } else {
-        return true;
+        return numX;
     }
 }
 
-let res_calc = 0;
-
 function calc() {
-    isNumber(firstValue.value);
-    isNumber(secondValue.value);
+    const val1 = firstValue.value;
+    const val2 = secondValue.value;
+    const num1 = getNumber(val1);
+    const num2 = getNumber(val2);
 
-    switch (operator.value) {
-        case "+": {
-            res_calc = +firstValue.value + +secondValue.value;
-            break;
-        }
-        case "-": {
-            res_calc = firstValue.value - secondValue.value;
-            break;
-        }
-        case "*": {
-            res_calc = firstValue.value * secondValue.value;
-            break;
-        }
-        case "/": {
-            res_calc = firstValue.value / secondValue.value;
-            break;
-        }
+    if (num1 === undefined) {
+        alert('Wrong number 1');
+        return;
     }
-    textSpan.textContent = res_calc;
+    if (num2 === undefined) {
+        alert('Wrong number 2');
+        return;
+    }
+
+    const operator = operatorSelect.value;
+
+    switch (operator) {
+        case "+":
+            resCalcSpan.textContent = num1 + num2;
+            break;
+        case "-":
+            resCalcSpan.textContent = num1 - num2;
+            break;
+        case "*":
+            resCalcSpan.textContent = num1 * num2;
+            break;
+        case "/":
+            resCalcSpan.textContent = num1 / num2;
+            break;
+        default:
+            alert('default');
+    }
 }
 
 /*
@@ -59,7 +67,7 @@ const result = document.getElementById('array_result');
 const arr = [];
 
 function addItem() {
-    isNumber(itemInput.value);
+    getNumber(itemInput.value);
     arr.push(+itemInput.value);
     result.textContent = JSON.stringify(arr);
     let res = 0;
@@ -68,7 +76,7 @@ function addItem() {
             res += arrElement;
         }
         sum.textContent = res;
-    }
+    } itemInput.value = '';
 }
 
 /*Create function reverseNumber() which gets number from input “#number_input”
@@ -78,7 +86,7 @@ const res = document.getElementById('reverse_result');
 
 function reverseNumber() {
     //Option 1 only methods
-    isNumber(number.value);
+    getNumber(number.value);
     let arr = number.value.split("");
     let reverseArr = arr.reverse();
     let joinArr = reverseArr.join("");
